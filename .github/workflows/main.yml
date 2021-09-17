@@ -18,11 +18,12 @@ jobs:
   # This workflow contains a single job called "build"
   
   Auto_Code_Review:
-    name: Auto-Code-Review-DevSkim
+    name: ACR-DevSkin
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - run: echo "Starting the Automated Code Review using DevSkin"
       - uses: microsoft/DevSkim-Action@v1
       - uses: github/codeql-action/upload-sarif@v1
         with:
@@ -32,7 +33,8 @@ jobs:
         with:
           name: DevSkim-artifact
           path: ${{ github.workspace }}  
-  SAS:
+  SIS:
+    name: Sensitive Information Scan (TruffleHog)
     runs-on: ubuntu-latest
     needs: Auto_Code_Review
     steps:
@@ -42,29 +44,12 @@ jobs:
  
 
 
-  securitytest:
-    # The type of runner that the job will run on
+  
+  SCA:
+    name: Source Composition Analysis (OWASP dependency check)
     runs-on: ubuntu-latest
     needs:
-      - SAS
-    #needs: build
-    steps:
-      - uses: actions/checkout@v2
-        name: Check out code
-        
-      - name: paDevSecOps message
-        run: echo "Hello to paDevSecOps"
-        
-      - name: Downloading Dependency check tool
-        run: wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip 
-      
-      - name: Unzipping archive and installing
-        run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .
-  depchecktest:
-    runs-on: ubuntu-latest
-    needs:
-      - securitytest
-    name: depecheck_test
+      - SIS
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -87,7 +72,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{matrix.platforms}}
     needs:
-      - depchecktest
+      - SCA
     strategy:
       matrix:
         platforms: [ubuntu-latest]
