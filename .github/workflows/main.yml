@@ -86,6 +86,7 @@ jobs:
 #     needs:
 #      - SCA
     steps:
+      - uses: actions/checkout@v2
       - name: PHPStan
         uses: chindit/actions-phpstan@master
 #   build:
