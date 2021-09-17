@@ -91,7 +91,7 @@ jobs:
       - name: Run phpstan
         uses: actions-x/phpstan@v1
         with:
-          directories: project
+          directories: src tests
           level: 3
           phpstanVersion: ^0.12
 #   build:
