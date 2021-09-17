@@ -75,7 +75,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Using Debricket SAST solution
-      - uses: debricked/actions/scan@v1
+        uses: debricked/actions/scan@v1
         env:
           USERNAME: '${{ secrets.DEBRICKED_USERNAME }}'
           PASSWORD: '${{ secrets.DEBRICKED_PASSWORD }}'
