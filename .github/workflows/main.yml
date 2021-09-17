@@ -88,12 +88,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Run phpstan
-        uses: actions-x/phpstan@v1
+      - uses: AppThreat/sast-scan-action@master
         with:
-          directories: src tests
-          level: 3
-          phpstanVersion: ^0.12
+            type: "php"  
 #   build:
 #     # The type of runner that the job will run on
 #     runs-on: ${{matrix.platforms}}
